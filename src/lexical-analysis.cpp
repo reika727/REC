@@ -125,7 +125,7 @@ namespace lexical_analysis {
         constexpr auto const_lines_view = std::views::split("\n"sv) | std::views::enumerate | std::views::as_const;
         constexpr auto drop_space_view = std::views::drop_while(::isspace);
         for (const auto [row_index, row] : source | const_lines_view) {
-            for (std::ranges::subrange trail = row | drop_space_view; !trail.empty(); trail = trail | drop_space_view) {
+            for (std::ranges::subrange trail = row | drop_space_view; trail; trail = trail | drop_space_view) {
                 std::optional<token> found_token = std::nullopt;
                 for (const auto &[token_kind, expression] : token_expressions) {
                     if (auto surface = std::visit(surface_getter{std::string_view{trail}}, expression)) {
