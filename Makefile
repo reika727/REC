@@ -1,7 +1,6 @@
 CXX      := /usr/local/bin/g++
 CPPFLAGS := -MMD -MP
 CXXFLAGS := -c -std=c++23 -Wall -Wextra
-LDFLAGS  := -Wl,-rpath="$(shell dirname $(shell readlink -f $(shell which $(CXX))))/../lib64/"
 SRCDIR   := src
 OBJDIR   := obj
 DEPDIR   := dep
@@ -18,7 +17,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p $(TRGDIR)
-	$(CXX) $(LDFLAGS) -o $@ $^
+	$(CXX) -o $@ $^
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(OBJDIR)
