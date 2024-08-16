@@ -15,14 +15,14 @@ all: $(TARGET)
 
 -include $(DEPS)
 
-$(TARGET): $(OBJS)
-	@mkdir -p $(TRGDIR)
+$(TARGET): $(OBJS) | $(TRGDIR)
 	$(CXX) -o $@ $^
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	@mkdir -p $(OBJDIR)
-	@mkdir -p $(DEPDIR)
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR) $(DEPDIR)
 	$(CXX) $(CPPFLAGS) -MF $(DEPDIR)/$(*F).d $(CXXFLAGS) -o $@ $<
+
+$(OBJDIR) $(DEPDIR) $(TRGDIR):
+	mkdir $@
 
 .PHONY: test
 test: $(TARGET)
